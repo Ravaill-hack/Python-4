@@ -9,14 +9,6 @@ def ft_mean(args: list) -> float:
     return (float(tot_sum) / len(args))
 
 
-"""FAUX IL N  A PAS DE I MEDIAN SI JE SUIS SUR UN NOMBRE PAIR"""
-def i_median(nb_args: int) -> int:
-    if (nb_args % 2 == 0):
-        return (((nb_args / 2) + (nb_args / 2 - 1)) / 2)
-    else :
-        return (int(nb_args / 2))
-
-
 def ft_median(args: list) -> float:
     """A function that calculates the median of a numbers list
     """
@@ -24,29 +16,60 @@ def ft_median(args: list) -> float:
     assert args
     nb_args = len(args)
     sorted_args = sorted(args)
+    i_median = nb_args // 2
+    if (nb_args % 2 == 0):
+        return ((sorted_args[i_median - 1] + sorted_args[i_median]) / 2)
+    else:
+        return (sorted_args[i_median])
     return (sorted_args[i_median(nb_args)])
+
 
 def ft_quartile(args: list) -> list:
     """A function that calculates the quartiles of a numbers list
     """
     assert args
-    i_median = i_median(len(args))
+    sorted_args = sorted(args)
+    nb_args = len(args)
+    q1 = 0
+    q2 = 0
+    i_q1 = (nb_args + 3) / 4 - 1
+    i_q2 = (3 * nb_args + 1) / 4 - 1
 
-    return [12, 12]
+    if ((nb_args + 3) % 4 == 0):
+        q1 = sorted_args[int(i_q1)]
+        q2 = sorted_args[int(i_q2)]
+    else :
+        inf1 = sorted_args[int(i_q1 // 1)]
+        sup1 = sorted_args[int(i_q1 // 1 + 1)]
+        if (i_q1 % 1 == 0.25):
+            q1 = ((3 * inf1 + sup1) / 4)
+        elif (i_q1 % 1 == 0.5):
+            q1 = ((inf1 + sup1) / 2)
+        else:
+            q1 = ((inf1 + 3 * sup1) / 4)
+        inf2 = sorted_args[int(i_q2 // 1)]
+        sup2 = sorted_args[int(i_q2 // 1 + 1)]
+        if (i_q2 % 1 == 0.25):
+            q2 = ((3 * inf2 + sup2) / 4)
+        elif (i_q2 % 1 == 0.5):
+            q2 = ((inf2 + sup2) / 2)
+        else:
+            q2 = ((inf2 + 3 * sup2) / 4)
+    return [float(q1), float(q2)]
 
 
 def perform_kwarg(args: list, kwarg: str):
     """A function that performs the calcul asked
     """
-    if (kwarg == 'toto'):
+    if (kwarg == 'mean'):
         print(f"mean: {ft_mean(args)}")
-    elif (kwarg == 'tutu'):
+    elif (kwarg == 'median'):
         print(f"median: {ft_median(args)}")
-    elif (kwarg == 'tata'):
+    elif (kwarg == 'quartile'):
         print(f"quartile: {ft_quartile(args)}")
-    elif (kwarg == 'hello'):
+    elif (kwarg == 'std'):
         print(f"std: ft_std(args)")
-    elif (kwarg == 'world'):
+    elif (kwarg == 'var'):
         print(f"var: ft_var(args)")
     else:
         return
@@ -58,12 +81,11 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
     """
 
     list_args = list(args)
-    list_kwargs = list(kwargs)
-    assert list_kwargs
+    assert kwargs
 
-    for kwarg in kwargs:
+    for kwar_key, kwarg_value in kwargs.items():
         try:
-            perform_kwarg(list_args, kwarg)
+            perform_kwarg(list_args, kwarg_value)
         except AssertionError:
             print(f"ERROR")
     # quartile_25, quartile_75 = ft_quartile(list_args)
