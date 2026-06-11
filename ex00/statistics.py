@@ -38,7 +38,7 @@ def ft_quartile(args: list) -> list:
     if ((nb_args + 3) % 4 == 0):
         q1 = sorted_args[int(i_q1)]
         q2 = sorted_args[int(i_q2)]
-    else :
+    else:
         inf1 = sorted_args[int(i_q1 // 1)]
         sup1 = sorted_args[int(i_q1 // 1 + 1)]
         if (i_q1 % 1 == 0.25):
@@ -58,6 +58,19 @@ def ft_quartile(args: list) -> list:
     return [float(q1), float(q2)]
 
 
+def ft_var(args: list, mean: float) -> float:
+    """A function that calculates the variance of a numbers list
+    """
+
+    assert args
+    nb_args = len(args)
+    variance = 0
+    for item in args:
+        variance += (item - mean) ** 2
+    variance = variance / nb_args
+    return (variance)
+
+
 def perform_kwarg(args: list, kwarg: str):
     """A function that performs the calcul asked
     """
@@ -68,9 +81,9 @@ def perform_kwarg(args: list, kwarg: str):
     elif (kwarg == 'quartile'):
         print(f"quartile: {ft_quartile(args)}")
     elif (kwarg == 'std'):
-        print(f"std: ft_std(args)")
+        print(f"std: {ft_var(args, ft_mean(args)) ** 0.5}")
     elif (kwarg == 'var'):
-        print(f"var: ft_var(args)")
+        print(f"var: {ft_var(args, ft_mean(args))}")
     else:
         return
 
@@ -87,5 +100,4 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
         try:
             perform_kwarg(list_args, kwarg_value)
         except AssertionError:
-            print(f"ERROR")
-    # quartile_25, quartile_75 = ft_quartile(list_args)
+            print("ERROR")
