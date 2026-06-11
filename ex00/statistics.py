@@ -94,7 +94,13 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
     """
 
     list_args = list(args)
-    assert kwargs
+    try:
+        for arg in list_args:
+            assert (type(arg) is int or type(arg) is float)
+        assert kwargs
+    except AssertionError:
+        print("ERROR: Invalid args")
+        return
 
     for kwar_key, kwarg_value in kwargs.items():
         try:
